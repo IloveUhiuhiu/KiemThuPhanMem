@@ -10,7 +10,7 @@ public class LoginPage
     //Locators
     private final By _txtUsername = By.xpath("//input[@id='username']");
     private final By _txtPassword = By.xpath("//input[@id='password']");
-    private final By _btnLogin = By.xpath("//input[@value='login']");
+    private final By _btnLogin = By.xpath("//input[@value='Login']");
     private final By _IbILoginErrorMsg = By.xpath("//p[@class='message error LoginForm']");
 
     //Elements
