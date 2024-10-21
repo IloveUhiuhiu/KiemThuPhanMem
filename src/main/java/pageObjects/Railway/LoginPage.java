@@ -54,12 +54,12 @@ public class LoginPage
     }
 
 
-    public HomePage login(String username, String password)
+    public void login(String username, String password)
     {
         this.getTxtUsername().sendKeys(username);
         this.getTxtPassword().sendKeys(password);
         this.getBtnLogin().click();
-        return new HomePage();
+
     }
 
 }

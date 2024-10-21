@@ -1,17 +1,15 @@
 package Testcases.Railway;
 
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pageObjects.Railway.BookTicketPage;
-import pageObjects.Railway.HomePage;
-import pageObjects.Railway.LoginPage;
+import pageObjects.Railway.*;
 import Common.Constant.Constant;
 
 import Common.common.Utilities;
-import pageObjects.Railway.RegisterPage;
 
 public class LoginTest {
         @BeforeMethod
@@ -40,7 +38,10 @@ public class LoginTest {
 //        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
 //
 //        // Thực hiện đăng nhập
-//        String actualMsg = loginPage.login(Constant.USERNAME, Constant.PASSWORD).getWelcomeMessage();
+//        loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+//        System.out.println(homePage.getCurrentUrl());
+//        System.out.println(Constant.WEBDRIVER.getPageSource());
+//        String actualMsg = homePage.getWelcomeMessage();
 //        String expectedMsg = "Welcome " + Constant.USERNAME;
 //
 //        // Kiểm tra thông điệp chào mừng
@@ -124,25 +125,84 @@ public class LoginTest {
         // Kiểm tra thông báo lỗi
         Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Error message is not displayed as expected after multiple failed login attempts.");
     }
+
     @Test
-    public void TC07() {
-        System.out.println("TC07 - User can create new account");
+    public void TC06() {
+        System.out.println("TC06 - Additional pages display once user logged in");
 
-        // Mở trang chính
         HomePage homePage = new HomePage();
-        homePage.open();
+        homePage.open(); // Mở trang chính
 
-        // Chuyển đến trang đăng ký
-        RegisterPage registerPage = homePage.gotoRegisterPage();
+        // Bước 2: Click on "Login" tab
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
 
+        // Bước 3: Login with valid account
+        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Đăng nhập với tài khoản hợp lệ
 
-        registerPage.register(Constant.USERNAME_REGISTER,Constant.PASSWORD_REGISTER,Constant.PID);
-        // Lấy thông báo xác nhận
-        String actualMsg = registerPage.getConfirmationMessage();
-        String expectedMsg = "Thank you for registering your account.";
+        // Bước 4: Kiểm tra sự xuất hiện của các tab bổ sung
+        Assert.assertTrue(homePage.isMyTicketTabDisplayed(), "\"My ticket\" tab is not displayed");
+        Assert.assertTrue(homePage.isChangePasswordTabDisplayed(), "\"Change password\" tab is not displayed");
 
-        // Kiểm tra thông báo xác nhận
-        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Confirmation message is not displayed as expected.");
+        // Bước 5: Click "My ticket" tab và kiểm tra điều hướng
+        homePage.gotoMyTickePage();
+        String actualMsg,expectedMsg;
+        actualMsg = homePage.getCurrentUrl();
+        expectedMsg = "http://railwayb1.somee.com/Page/ManageTicket.cshtml";
+        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "User is not directed to My ticket page");
+
+        homePage.goBack(); // Quay lại trang chính
+
+        homePage.gotoChangePasswordPage();
+        actualMsg = homePage.getCurrentUrl();
+        expectedMsg = "http://railwayb1.somee.com/Account/ChangePassword.cshtml";
+        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "User is not directed to Change password page");
     }
+
+
+//    @Test
+//    public void TC08() {
+//        System.out.println("TC08 - User can't login with an account hasn't been activated");
+//
+//        // Bước 1: Navigate to QA Railway Website
+//        HomePage homePage = new HomePage();
+//        homePage.open(); // Mở trang chính
+//
+//        // Bước 2: Click on "Login" tab
+//        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+//        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Thực hiện đăng nhập
+//
+//        // Bước 4: Lấy thông báo lỗi
+//        String actualMsg = loginPage.getErrorMessage(); // Lấy thông báo lỗi
+//        String expectedMsg = "Invalid username or password. Please try again."; // Thông báo mong đợi
+//
+//        // Kiểm tra thông báo lỗi
+//        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Error message is not displayed as expected");
+//    }
+
+    @Test
+    public void TC09() {
+        System.out.println("TC09 - User can change password");
+
+        HomePage homePage = new HomePage();
+        homePage.open(); // Mở trang chính
+
+
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Đăng nhập
+
+        ChangePasswordPage changePasswordPage = homePage.gotoChangePasswordPage(); // Nhấp vào tab "Change Password"
+
+        changePasswordPage.changePassword(Constant.PASSWORD,Constant.NEW_PASSWORD,Constant.NEW_PASSWORD);
+
+        // Kiểm tra thông báo thành công
+        String actualMsg = changePasswordPage.getSuccessMessage(); // Lấy thông báo thành công
+        String expectedMsg = "Your password has been updated!"; // Thông báo mong đợi
+
+        // Kiểm tra thông báo
+        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Success message is not displayed as expected");
+    }
+
+
+
 
 }
