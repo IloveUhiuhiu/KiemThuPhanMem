@@ -202,6 +202,37 @@ public class LoginTest {
         Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Success message is not displayed as expected");
     }
 
+    @Test
+    public void TC14() {
+            System.out.println("TC14 - User can book 1 ticket at a time");
+
+            // Bước 1: Navigate to QA Railway Website
+            HomePage homePage = new HomePage();
+            homePage.open(); // Mở trang chính
+
+            // Bước 2: Login with a valid account
+            LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+            loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Đăng nhập bằng tài khoản hợp lệ
+
+            // Bước 3: Click on "Book ticket" tab
+            BookTicketPage ticketBookingPage = homePage.gotoBookTicketPage(); // Chuyển đến trang đặt vé
+
+            ticketBookingPage.bookTicket("11/1/2024","Huế","Nha Trang","Soft bed with air conditioner",1);
+
+            // Kiểm tra thông báo thành công
+            String actualMsg = ticketBookingPage.getSuccessMessage(); // Lấy thông báo thành công
+            String expectedMsg = "Ticket booked successfully!"; // Thông báo mong đợi
+            Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Success message is not displayed as expected.");
+
+            // Kiểm tra thông tin vé
+            TicketInfor ticketInfor = ticketBookingPage.getTicketInfo(); // Lấy thông tin vé
+            Assert.assertEquals(ticketInfor.getDepartDate(), "11/1/2024", "Depart Date is not correct.");
+            Assert.assertEquals(ticketInfor.getDepartStation(), "Huế", "Depart Station is not correct.");
+            Assert.assertEquals(ticketInfor.getArriveStation(), "Nha Trang", "Arrive Station is not correct.");
+            Assert.assertEquals(ticketInfor.getSeatType(), "Soft bed with air conditioner", "Seat Type is not correct.");
+            Assert.assertEquals(ticketInfor.getAmount(), 1, "Ticket Amount is not correct.");
+
+    }
 
 
 
