@@ -144,7 +144,7 @@ public class LoginTest {
         Assert.assertTrue(homePage.isChangePasswordTabDisplayed(), "\"Change password\" tab is not displayed");
 
         // Bước 5: Click "My ticket" tab và kiểm tra điều hướng
-        homePage.gotoMyTickePage();
+        homePage.gotoMyTicketPage();
         String actualMsg,expectedMsg;
         actualMsg = homePage.getCurrentUrl();
         expectedMsg = "http://railwayb1.somee.com/Page/ManageTicket.cshtml";
@@ -235,5 +235,54 @@ public class LoginTest {
     }
 
 
+    @Test
+    public void TC15() {
+        System.out.println("TC15 - User can open 'Book ticket' page by clicking on 'Book ticket' link in 'Train timetable' page");
 
+        // Bước 1: Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open(); // Mở trang chính
+
+        // Bước 2: Login with a valid account
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Đăng nhập bằng tài khoản hợp lệ
+
+        // Bước 3: Click on "Timetable" tab
+        TimetablePage timetablePage = homePage.gotoTimetablePage(); // Chuyển đến trang thời gian biểu
+
+        // Bước 4: Click on "book ticket" link of the route from "Huế" to "Sài Gòn"
+        BookTicketPage ticketBookingPage = timetablePage.clickBookTicketLink("Sài Gòn", "Huế"); // Nhấp vào liên kết đặt vé
+
+        // Kiểm tra xem trang "Book ticket" đã được tải đúng
+        String actualDepartFrom = ticketBookingPage.getDdlDepartStation().getText(); // Lấy thông tin điểm khởi hành
+        String actualArriveAt = ticketBookingPage.getDdlArriveStation().getText(); // Lấy thông tin điểm đến
+
+        Assert.assertEquals(actualDepartFrom, "Sài Gòn", "Depart from value is not correct.");
+        Assert.assertEquals(actualArriveAt, "Huế", "Arrive at value is not correct.");
+    }
+
+    @Test
+    public void TC16() {
+        System.out.println("TC16 - User can cancel a ticket");
+
+        // Bước 1: Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open(); // Mở trang chính
+
+        // Bước 2: Login with a valid account
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Đăng nhập bằng tài khoản hợp lệ
+
+        // Bước 3: Book a ticket first to ensure there is a ticket to cancel
+        BookTicketPage ticketBookingPage = homePage.gotoBookTicketPage(); // Chuyển đến trang đặt vé
+        ticketBookingPage.bookTicket("11/17/2024", "Huế", "Nha Trang", "Soft bed with air conditioner", 1);
+
+        // Bước 4: Click on "My ticket" tab
+        MyTicketPage myTicketPage = homePage.gotoMyTicketPage(); // Chuyển đến trang "My ticket"
+
+        // Bước 5: Click on "Cancel" button for the ticket to cancel
+        myTicketPage.cancelTicket("11/17/2024", "Huế", "Nha Trang", "Soft bed with air conditioner", 1); // Hủy vé
+        Assert.assertFalse(myTicketPage.isTicketVisible("11/17/2024", "Huế", "Nha Trang", "Soft bed with air conditioner", 1), "The canceled ticket is still visible.");
+
+    }
 }
