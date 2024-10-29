@@ -30,23 +30,22 @@ public class LoginTest {
             Constant.WEBDRIVER.quit();
         }
 
-//    @Test
-//    public void TC01() {
-//        System.out.println("TC01 - User can log into Railway with valid user name and password");
-//        HomePage homePage = new HomePage();
-//        homePage.open(); // Mở trang chính
-//        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
-//
-//        // Thực hiện đăng nhập
-//        loginPage.login(Constant.USERNAME, Constant.PASSWORD);
-//        System.out.println(homePage.getCurrentUrl());
-//        System.out.println(Constant.WEBDRIVER.getPageSource());
-//        String actualMsg = homePage.getWelcomeMessage();
-//        String expectedMsg = "Welcome " + Constant.USERNAME;
-//
-//        // Kiểm tra thông điệp chào mừng
-//        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Welcome message is not displayed as expected");
-//    }
+    @Test
+    public void TC01() {
+        System.out.println("TC01 - User can log into Railway with valid user name and password");
+        HomePage homePage = new HomePage();
+        homePage.open(); // Mở trang chính
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+
+        // Thực hiện đăng nhập
+        loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+
+        String actualMsg = homePage.getWelcomeMessage();
+        String expectedMsg = "Welcome " + Constant.USERNAME;
+
+        // Kiểm tra thông điệp chào mừng
+        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Welcome message is not displayed as expected");
+    }
 
     @Test
     public void TC02() {
@@ -172,7 +171,7 @@ public class LoginTest {
 //        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Thực hiện đăng nhập
 //
 //        // Bước 4: Lấy thông báo lỗi
-//        String actualMsg = loginPage.getErrorMessage(); // Lấy thông báo lỗi
+//        String actualMsg = loginPage.getErrorMessage();// Lấy thông báo lỗi
 //        String expectedMsg = "Invalid username or password. Please try again."; // Thông báo mong đợi
 //
 //        // Kiểm tra thông báo lỗi
@@ -200,6 +199,44 @@ public class LoginTest {
 
         // Kiểm tra thông báo
         Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Success message is not displayed as expected");
+    }
+    @Test
+    public void TC12() {
+        System.out.println("TC12 - Errors display when password reset token is blank");
+
+        // Mở trang đăng nhập
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+        //loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Đăng nhập
+
+        // Nhấp vào liên kết "Forgot Password"
+        ForgotPasswordPage forgotPasswordPage = loginPage.gotoForgotPasswordPage();
+
+
+        forgotPasswordPage.enterEmailAndSendInstructions("fakemail@gmail.com");
+
+
+    }
+    @Test
+    public void TC13() {
+        System.out.println("TC12 - Errors display when password reset token is blank");
+
+        // Mở trang đăng nhập
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+        //loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Đăng nhập
+
+        // Nhấp vào liên kết "Forgot Password"
+        ForgotPasswordPage forgotPasswordPage = loginPage.gotoForgotPasswordPage();
+
+
+        forgotPasswordPage.enterEmailAndSendInstructions("fakemail@gmail.com");
+
+
     }
 
     @Test

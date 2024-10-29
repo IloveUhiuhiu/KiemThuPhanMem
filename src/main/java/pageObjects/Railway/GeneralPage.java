@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class GeneralPage {
     //Locators
@@ -21,6 +22,7 @@ public class GeneralPage {
     private final By tabTimetable = By.xpath("//div[@id='menu']//a[@href='TrainTimeListPage.cshtml']");
     private final By tabBookTicket = By.xpath("//div[@id='menu']//a[@href='/Page/BookTicketPage.cshtml']");
     private final By tabRegister = By.xpath ("//div[@id='menu']//a[@href='/Account/Register.cshtml']");
+
     protected WebElement getTabLogin() {
         // Định nghĩa chờ tối đa 30 giây
         WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
@@ -126,7 +128,10 @@ public class GeneralPage {
         // Khởi tạo WebDriverWait với thời gian chờ tối đa là 30 giây
         WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
 
+        //System.out.println(Constant.WEBDRIVER.getPageSource());
         try {
+           // Chờ cho phần tử có id "banner" hiển thị
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("banner")));
             // Chờ cho đến khi phần tử có mặt và có thể nhìn thấy
             return wait.until(ExpectedConditions.visibilityOfElementLocated(IblWelcomMessage));
         } catch (TimeoutException e) {
@@ -138,16 +143,8 @@ public class GeneralPage {
         }
     }
 
-    //Methods
-    public String getWelcomeMessage() {
-        WebElement welcomeMessageElement = this.getLblWelcomeMessage();
-        if (welcomeMessageElement != null) {
-            return welcomeMessageElement.getText();
-        } else {
-            System.out.println("Không thể lấy thông điệp chào mừng.");
-            return ""; // Trả về chuỗi rỗng nếu không tìm thấy
-        }
-    }
+
+
     public LoginPage gotoLoginPage()
     {
         this.getTabLogin().click();
@@ -173,6 +170,9 @@ public class GeneralPage {
     public TimetablePage gotoTimetablePage() {
         this.getTabTimetable().click();
         return new TimetablePage();
+    }
+    public String getWelcomeMessage() {
+        return getLblWelcomeMessage().getText().trim();
     }
     public String getCurrentUrl() {
         return Constant.WEBDRIVER.getCurrentUrl();
