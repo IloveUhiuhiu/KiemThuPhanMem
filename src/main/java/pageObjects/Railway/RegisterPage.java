@@ -1,11 +1,9 @@
 package pageObjects.Railway;
 import Common.Constant.Constant;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.NoSuchElementException;
+
 import java.time.Duration;
 
 public class RegisterPage {
@@ -112,6 +110,10 @@ public class RegisterPage {
         getTxtPassword().sendKeys(password);
         getTxtconfirmPassword().sendKeys(confirmPassword);
         getTxtPID().sendKeys(pid);
-        getBtnRegister().click();
+        WebElement registerButton = getBtnRegister();
+        ((JavascriptExecutor) Constant.WEBDRIVER).executeScript("arguments[0].scrollIntoView(true);", registerButton);
+
+
+        registerButton.click();
     }
 }
