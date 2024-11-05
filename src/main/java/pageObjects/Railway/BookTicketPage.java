@@ -3,6 +3,7 @@ package pageObjects.Railway;
 import Common.Constant.Constant;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -27,7 +28,17 @@ public class BookTicketPage {
     public WebElement getDdlArriveStation() {
         return Constant.WEBDRIVER.findElement(_ddlArriveStation);
     }
+    public String getSelectedDepartStation() {
+        WebElement departStationDropdown = getDdlDepartStation();
+        Select select = new Select(departStationDropdown);
+        return select.getFirstSelectedOption().getText();
+    }
 
+    public String getSelectedArriveStation() {
+        WebElement arriveStationDropdown = getDdlArriveStation();
+        Select select = new Select(arriveStationDropdown);
+        return select.getFirstSelectedOption().getText();
+    }
     public WebElement getDdlSeatType() {
         return Constant.WEBDRIVER.findElement(_ddlSeatType);
     }

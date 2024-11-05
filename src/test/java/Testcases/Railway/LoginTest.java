@@ -235,8 +235,6 @@ public class LoginTest {
 
 
         forgotPasswordPage.enterEmailAndSendInstructions("fakemail@gmail.com");
-
-
     }
 
     @Test
@@ -291,11 +289,12 @@ public class LoginTest {
         BookTicketPage ticketBookingPage = timetablePage.clickBookTicketLink("Sài Gòn", "Huế"); // Nhấp vào liên kết đặt vé
 
         // Kiểm tra xem trang "Book ticket" đã được tải đúng
-        String actualDepartFrom = ticketBookingPage.getDdlDepartStation().getText(); // Lấy thông tin điểm khởi hành
-        String actualArriveAt = ticketBookingPage.getDdlArriveStation().getText(); // Lấy thông tin điểm đến
-
-        Assert.assertEquals(actualDepartFrom, "Sài Gòn", "Depart from value is not correct.");
+        String actualDepartFrom = ticketBookingPage.getSelectedDepartStation(); // Lấy thông tin điểm khởi hành
+        String actualArriveAt = ticketBookingPage.getSelectedArriveStation(); // Lấy thông tin điểm đến
+        //System.out.println(actualArriveAt + ", " + actualDepartFrom);
         Assert.assertEquals(actualArriveAt, "Huế", "Arrive at value is not correct.");
+        Assert.assertEquals(actualDepartFrom, "Sài Gòn", "Depart from value is not correct.");
+
     }
 
     @Test
