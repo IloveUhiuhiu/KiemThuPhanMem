@@ -22,11 +22,36 @@ public class BookTicketPage {
     }
 
     public WebElement getDdlDepartStation() {
-        return Constant.WEBDRIVER.findElement(_ddlDepartStation);
+        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
+
+        try {
+            // Chờ cho đến khi phần tử "Register" có mặt và có thể nhấp được
+            return wait.until(ExpectedConditions.elementToBeClickable(_ddlDepartStation)); // Thay đổi XPath nếu cần
+        } catch (TimeoutException e) {
+            System.out.println("Đã hết thời gian chờ khi tìm tab '_ddlDepartStation': " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Không tìm thấy tab '_ddlDepartStation': " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
+        }
+        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
+
     }
 
     public WebElement getDdlArriveStation() {
-        return Constant.WEBDRIVER.findElement(_ddlArriveStation);
+        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
+
+        try {
+            // Chờ cho đến khi phần tử "Register" có mặt và có thể nhấp được
+            return wait.until(ExpectedConditions.elementToBeClickable(_ddlArriveStation)); // Thay đổi XPath nếu cần
+        } catch (TimeoutException e) {
+            System.out.println("Đã hết thời gian chờ khi tìm tab '_ddlArriveStation': " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Không tìm thấy tab '_ddlArriveStation': " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
+        }
+        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
     }
     public String getSelectedDepartStation() {
         WebElement departStationDropdown = getDdlDepartStation();
