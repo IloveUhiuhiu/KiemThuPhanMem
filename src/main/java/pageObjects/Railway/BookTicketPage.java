@@ -161,8 +161,10 @@ public class BookTicketPage {
         selectArriveAt(arriveAt);
         selectSeatType(seatType);
         selectTicketAmount(ticketAmount);
+        WebElement bookTicketLink = getBtnBookTicket();
+        ((JavascriptExecutor) Constant.WEBDRIVER).executeScript("arguments[0].scrollIntoView(true);", bookTicketLink);
+        bookTicketLink.click();
 
-        getBtnBookTicket().click();
     }
 
     public String getSuccessMessage() {
