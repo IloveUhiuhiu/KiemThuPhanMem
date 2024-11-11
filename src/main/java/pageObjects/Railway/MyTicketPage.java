@@ -12,17 +12,19 @@ import java.util.List;
 public class MyTicketPage {
     public void cancelTicket(String departDate, String departFrom, String arriveAt, String seatType, int ticketAmount) {
             // Tìm tất cả các hàng trong bảng vé
-            WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+            WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@class='MyTable']/tbody/tr")));
             List<WebElement> rows = Constant.WEBDRIVER.findElements(By.xpath("//table[@class='MyTable']/tbody/tr"));
 
-
             for (WebElement row : rows) {
-
+                int elementHeight = row.getSize().getHeight();
+                ((JavascriptExecutor) Constant.WEBDRIVER).executeScript(
+                        "window.scrollTo(0, arguments[0].getBoundingClientRect().top + window.scrollY - (arguments[1] / 2));",
+                        row,
+                        elementHeight
+                );
                 List<WebElement> cells = row.findElements(By.xpath(".//td"));
-
                 if (cells.isEmpty()) {
-                    System.out.println("No cells found in this row.");
                     continue; // Bỏ qua hàng này
                 }
                 String actualDepartFrom = cells.get(1).getText(); // Depart From
@@ -53,7 +55,7 @@ public class MyTicketPage {
 
     public boolean isTicketVisible(String departDate, String departFrom, String arriveAt, String seatType, int ticketAmount) {
         // Tìm tất cả các hàng trong bảng vé
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@class='MyTable']/tbody/tr")));
         List<WebElement> rows = Constant.WEBDRIVER.findElements(By.xpath("//table[@class='MyTable']/tbody/tr"));
 

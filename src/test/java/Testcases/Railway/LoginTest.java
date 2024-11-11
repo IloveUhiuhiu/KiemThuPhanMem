@@ -8,10 +8,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageObjects.Railway.*;
 import Common.Constant.Constant;
-
-import Common.common.Utilities;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginTest {
+    static {
+        Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
+    }
         @BeforeMethod
         public void beforeMethod() {
             System.out.println("Pre-condition");
@@ -158,25 +161,25 @@ public class LoginTest {
     }
 
 
-//    @Test
-//    public void TC08() {
-//        System.out.println("TC08 - User can't login with an account hasn't been activated");
-//
-//        // Bước 1: Navigate to QA Railway Website
-//        HomePage homePage = new HomePage();
-//        homePage.open(); // Mở trang chính
-//
-//        // Bước 2: Click on "Login" tab
-//        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
-//        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Thực hiện đăng nhập
-//
-//        // Bước 4: Lấy thông báo lỗi
-//        String actualMsg = loginPage.getErrorMessage();// Lấy thông báo lỗi
-//        String expectedMsg = "Invalid username or password. Please try again."; // Thông báo mong đợi
-//
-//        // Kiểm tra thông báo lỗi
-//        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Error message is not displayed as expected");
-//    }
+    @Test
+    public void TC08() {
+        System.out.println("TC08 - User can't login with an account hasn't been activated");
+
+        // Bước 1: Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open(); // Mở trang chính
+
+        // Bước 2: Click on "Login" tab
+        LoginPage loginPage = homePage.gotoLoginPage(); // Chuyển đến trang đăng nhập
+        loginPage.login(Constant.USERNAME, Constant.PASSWORD); // Thực hiện đăng nhập
+
+        // Bước 4: Lấy thông báo lỗi
+        String actualMsg = loginPage.getErrorMessage();// Lấy thông báo lỗi
+        String expectedMsg = "Invalid username or password. Please try again."; // Thông báo mong đợi
+
+        // Kiểm tra thông báo lỗi
+        Assert.assertEquals(actualMsg.trim(), expectedMsg.trim(), "Error message is not displayed as expected");
+    }
 
     @Test
     public void TC09() {

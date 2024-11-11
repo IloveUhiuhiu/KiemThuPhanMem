@@ -11,7 +11,7 @@ public class Constant {
     public static final String USERNAME ="dellsystem735@gmail.com";
     public static final String PASSWORD ="12345678";
     public static final String NEW_PASSWORD ="12345678";
-    public static final String USERNAME_REGISTER ="kemcongle1111@gmail.com";
+    public static final String USERNAME_REGISTER ="kemcongle21111@gmail.com";
     public static final String PASSWORD_REGISTER ="abc123@@@A";
     public static final String INVALIDPASSWORD_REGISTER ="11111111"; // 8 số 1
     public static final String PID ="B12345678";

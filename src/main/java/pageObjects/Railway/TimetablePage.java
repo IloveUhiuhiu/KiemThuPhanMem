@@ -27,7 +27,6 @@ public class TimetablePage {
                 return new BookTicketPage(); // Trả về trang đặt vé
             }
         }
-
         throw new NoSuchElementException("No booking link found for the route from " + departFrom + " to " + arriveAt);
     }
 }

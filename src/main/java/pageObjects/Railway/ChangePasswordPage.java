@@ -1,10 +1,6 @@
 package pageObjects.Railway;
-
-import Common.Constant.Constant;
+import Common.common.Utilities;
 import org.openqa.selenium.*;
-
-
-import java.time.Duration;
 public class ChangePasswordPage {
 
     // Locators
@@ -15,28 +11,30 @@ public class ChangePasswordPage {
     private By _IbIsuccessMsg = By.xpath("//p[@class='message success']"); // Locator cho thông báo thành công
 
     public WebElement getTxtCurrentPassword() {
-        return Constant.WEBDRIVER.findElement(_txtCurrentPassword);
-    }
-    public WebElement getTxtNewPassword() {
-        return Constant.WEBDRIVER.findElement(_txtNewPassword);
-    }
-    public WebElement getTxtConfirmPassword() {
-        return Constant.WEBDRIVER.findElement(_txtConfirmPassword);
-    }
-    public WebElement getBtnChangePasswordButton() {
-        return Constant.WEBDRIVER.findElement(_btnChangePasswordButton);
-    }
-    public WebElement getIbIsuccessMsg() {
-        return Constant.WEBDRIVER.findElement(_IbIsuccessMsg);
+        return Utilities.waitForElementToBeClickable(_txtCurrentPassword);
     }
 
+    public WebElement getTxtNewPassword() {
+        return Utilities.waitForElementToBeClickable(_txtNewPassword);
+    }
+
+    public WebElement getTxtConfirmPassword() {
+        return Utilities.waitForElementToBeClickable(_txtConfirmPassword);
+    }
+
+    public WebElement getBtnChangePasswordButton() {
+        return Utilities.waitForElementToBeClickable(_btnChangePasswordButton);
+    }
+
+    public WebElement getIbIsuccessMsg() {
+        return Utilities.waitForElementToBeVisible(_IbIsuccessMsg);
+    }
     public void changePassword(String currentPassword, String newPassword, String confirmPassword) {
         getTxtCurrentPassword().sendKeys(currentPassword);
         getTxtNewPassword().sendKeys(newPassword);
         getTxtConfirmPassword().sendKeys(confirmPassword);
         getBtnChangePasswordButton().click();
     }
-
     // Lấy thông báo thành công
     public String getSuccessMessage() {
         return getIbIsuccessMsg().getText();

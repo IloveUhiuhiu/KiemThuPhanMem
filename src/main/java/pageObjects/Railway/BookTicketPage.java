@@ -1,6 +1,7 @@
 package pageObjects.Railway;
 
 import Common.Constant.Constant;
+import Common.common.Utilities;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -18,41 +19,17 @@ public class BookTicketPage {
     private final By _lblSuccessMsg = By.xpath("//div[@id='content']/h1"); // Thay đổi ID nếu cần
 
     public WebElement getDdlDepartDate() {
-        return Constant.WEBDRIVER.findElement(_ddlDepartDate);
+        return Utilities.waitForElementToBeClickable(_ddlDepartDate);
     }
 
     public WebElement getDdlDepartStation() {
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-
-        try {
-            // Chờ cho đến khi phần tử "Register" có mặt và có thể nhấp được
-            return wait.until(ExpectedConditions.elementToBeClickable(_ddlDepartStation)); // Thay đổi XPath nếu cần
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab '_ddlDepartStation': " + e.getMessage());
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab '_ddlDepartStation': " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
-
+        return Utilities.waitForElementToBeClickable(_ddlDepartStation);
     }
 
     public WebElement getDdlArriveStation() {
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-
-        try {
-            // Chờ cho đến khi phần tử "Register" có mặt và có thể nhấp được
-            return wait.until(ExpectedConditions.elementToBeClickable(_ddlArriveStation)); // Thay đổi XPath nếu cần
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab '_ddlArriveStation': " + e.getMessage());
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab '_ddlArriveStation': " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
+        return Utilities.waitForElementToBeClickable(_ddlArriveStation);
     }
+
     public String getSelectedDepartStation() {
         WebElement departStationDropdown = getDdlDepartStation();
         Select select = new Select(departStationDropdown);
@@ -64,38 +41,34 @@ public class BookTicketPage {
         Select select = new Select(arriveStationDropdown);
         return select.getFirstSelectedOption().getText();
     }
+
     public WebElement getDdlSeatType() {
-        return Constant.WEBDRIVER.findElement(_ddlSeatType);
+        return Utilities.waitForElementToBeClickable(_ddlSeatType);
     }
 
     public WebElement getDdlTicketAmount() {
-        return Constant.WEBDRIVER.findElement(_ddlTicketAmount);
+        return Utilities.waitForElementToBeClickable(_ddlTicketAmount);
     }
 
     public WebElement getBtnBookTicket() {
-        return Constant.WEBDRIVER.findElement(_btnBookTicket);
+        return Utilities.waitForElementToBeClickable(_btnBookTicket);
     }
 
     public WebElement getLblSuccessMsg() {
-        return Constant.WEBDRIVER.findElement(_lblSuccessMsg);
+        return Utilities.waitForElementToBeVisible(_lblSuccessMsg);
     }
-
     // Phương thức chọn ngày khởi hành
     public void selectDepartDate(String departDate) {
         WebElement dateDropdown = getDdlDepartDate();
 
         // Chờ cho dropdown có thể nhấp
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.elementToBeClickable(dateDropdown));
-
         // Cuộn đến dropdown
         ((JavascriptExecutor) Constant.WEBDRIVER).executeScript("arguments[0].scrollIntoView(true);", dateDropdown);
-
         dateDropdown.click(); // Mở dropdown
-
         // Chờ cho các tùy chọn có thể nhấp
         wait.until(ExpectedConditions.visibilityOfAllElements(dateDropdown.findElements(By.tagName("option"))));
-
         for (WebElement option : dateDropdown.findElements(By.tagName("option"))) {
             if (option.getText().equals(departDate)) {
                 // Chờ cho tùy chọn có thể nhấp
@@ -105,7 +78,6 @@ public class BookTicketPage {
             }
         }
     }
-
     // Phương thức chọn điểm khởi hành
     public void selectDepartFrom(String departFrom) {
         WebElement departDropdown = getDdlDepartStation();
@@ -166,21 +138,16 @@ public class BookTicketPage {
         bookTicketLink.click();
 
     }
-
     public String getSuccessMessage() {
         return getLblSuccessMsg().getText();
     }
-
-
     public TicketInfor getTicketInfo() {
         WebElement tableRow = Constant.WEBDRIVER.findElement(By.xpath("//div[@class='DivTable']//tr[@class='OddRow']"));
-
         String departStation = tableRow.findElement(By.xpath("./td[1]")).getText();
         String arriveStation = tableRow.findElement(By.xpath("./td[2]")).getText();
         String seatType = tableRow.findElement(By.xpath("./td[3]")).getText();
         String departDate = tableRow.findElement(By.xpath("./td[4]")).getText();
         int amount = Integer.parseInt(tableRow.findElement(By.xpath("./td[7]")).getText());
-
         return new TicketInfor(departStation, arriveStation, seatType, departDate, amount);
     }
 

@@ -1,5 +1,6 @@
 package pageObjects.Railway;
 
+import Common.common.Utilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -24,93 +25,27 @@ public class GeneralPage {
     private final By tabRegister = By.xpath ("//div[@id='menu']//a[@href='/Account/Register.cshtml']");
 
     protected WebElement getTabLogin() {
-        // Định nghĩa chờ tối đa 30 giây
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-
-        try {
-            // Chờ cho đến khi phần tử có thể nhấp được
-            return wait.until(ExpectedConditions.elementToBeClickable(tabLogin));
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab đăng nhập: " + e.getMessage());
-            return null; // Trả về null nếu không tìm thấy phần tử
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab đăng nhập: " + e.getMessage());
-            return null; // Trả về null nếu không tìm thấy phần tử
-        }
+        return Utilities.waitForElementToBeClickable(tabLogin);
     }
+
     protected WebElement getTabRegister() {
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-
-        try {
-            // Chờ cho đến khi phần tử "Register" có mặt và có thể nhấp được
-            return wait.until(ExpectedConditions.elementToBeClickable(tabRegister)); // Thay đổi XPath nếu cần
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab 'Register': " + e.getMessage());
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab 'Register': " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
+        return Utilities.waitForElementToBeClickable(tabRegister);
     }
+
     protected WebElement getTabBookTicket() {
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-
-        try {
-            // Chờ cho đến khi phần tử có mặt và có thể nhìn thấy
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(tabBookTicket));
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab 'Book Ticket': " + e.getMessage());
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab 'Book Ticket': " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
+        return Utilities.waitForElementToBeClickable(tabBookTicket);
     }
+
     protected WebElement getTabMyTicket() {
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-        try {
-            // Chờ cho đến khi phần tử có mặt và có thể nhìn thấy
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(tabMyTicket));
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab 'My ticket': " + e.getMessage());
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab 'My ticket': " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
-    }
-    protected WebElement getTabTimetable() {
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-        try {
-            // Chờ cho đến khi phần tử có mặt và có thể nhìn thấy
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(tabTimetable));
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab 'Timetable': " + e.getMessage());
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab 'Timetable': " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
+        return Utilities.waitForElementToBeClickable(tabMyTicket);
     }
 
-    // Hàm lấy tab "Change password"
+    protected WebElement getTabTimetable() {
+        return Utilities.waitForElementToBeClickable(tabTimetable);
+    }
+
     protected WebElement getTabChangePassword() {
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(30));
-        try {
-            // Chờ cho đến khi phần tử có mặt và có thể nhìn thấy
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(tabChangePassword));
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm tab 'Change password': " + e.getMessage());
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy tab 'Change password': " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Một lỗi khác đã xảy ra: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy phần tử hoặc có lỗi
+        return Utilities.waitForElementToBeClickable(tabChangePassword);
     }
     public boolean isMyTicketTabDisplayed() {
         return getTabMyTicket().isDisplayed();
@@ -122,53 +57,36 @@ public class GeneralPage {
     }
 
     protected WebElement getTabLogout () {
-        return Constant.WEBDRIVER.findElement(tabLogout);
+        return Utilities.waitForElementToBeClickable(tabLogout);
     }
     protected WebElement getLblWelcomeMessage() {
-        // Khởi tạo WebDriverWait với thời gian chờ tối đa là 30 giây
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
-
-        //System.out.println(Constant.WEBDRIVER.getPageSource());
-        try {
-           // Chờ cho phần tử có id "banner" hiển thị
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("banner")));
-            // Chờ cho đến khi phần tử có mặt và có thể nhìn thấy
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(IblWelcomMessage));
-        } catch (TimeoutException e) {
-            System.out.println("Đã hết thời gian chờ khi tìm thông điệp chào mừng: " + e.getMessage());
-            return null; // Trả về null nếu không tìm thấy phần tử
-        } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy thông điệp chào mừng: " + e.getMessage());
-            return null; // Trả về null nếu không tìm thấy phần tử
-        }
+        return Utilities.waitForElementToBeVisible(IblWelcomMessage);
     }
-
-
 
     public LoginPage gotoLoginPage()
     {
-        this.getTabLogin().click();
+        getTabLogin().click();
         return new LoginPage ();
     }
     public BookTicketPage gotoBookTicketPage()
     {
-        this.getTabBookTicket().click();
+        getTabBookTicket().click();
         return new BookTicketPage();
     }
     public RegisterPage gotoRegisterPage(){
-        this.getTabRegister().click();
+        getTabRegister().click();
         return new RegisterPage();
     }
     public MyTicketPage gotoMyTicketPage() {
-        this.getTabMyTicket().click();
+        getTabMyTicket().click();
         return new MyTicketPage();
     }
     public ChangePasswordPage gotoChangePasswordPage() {
-        this.getTabChangePassword().click();
+        getTabChangePassword().click();
         return new ChangePasswordPage();
     }
     public TimetablePage gotoTimetablePage() {
-        this.getTabTimetable().click();
+        getTabTimetable().click();
         return new TimetablePage();
     }
     public String getWelcomeMessage() {
